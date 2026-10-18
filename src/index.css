@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: #1c1917;
+  color: #FFB000;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { min-height: 100svh; display: flex; flex-direction: column; }
+
+/* ── Animated dot grid ─────────────────────────────────────────────── */
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 28px 28px; }
+}
+
+/* ── Block cursor blink ────────────────────────────────────────────── */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.cursor-blink { animation: blink 1s step-start infinite; }
+
+/* ── Fade-in ───────────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fade-in 0.35s ease forwards; }
+
+/* ── Particle burst ────────────────────────────────────────────────── */
+@keyframes particle-fly {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2); }
+}
+.particle {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  pointer-events: none;
+  top: 50%; left: 50%;
+  animation: particle-fly 0.55s ease-out forwards;
+  z-index: 10;
+}
+
+/* ── Streak pop ────────────────────────────────────────────────────── */
+@keyframes streak-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.5); filter: brightness(1.4); }
+  60%  { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+.streak-pop { animation: streak-pop 0.45s cubic-bezier(.36,.07,.19,.97); }
+
+/* ── Live keyboard next-key pulse ──────────────────────────────────── */
+@keyframes key-pulse {
+  0%, 100% { box-shadow: 0 0 6px #FFB00050; border-color: #FFB000aa; }
+  50%       { box-shadow: 0 0 18px #FFB000bb; border-color: #FFB000; }
+}
+.key-next { animation: key-pulse 1s ease-in-out infinite; }
+
+/* ── CRT corner vignette ───────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #1c1917; }
+::-webkit-scrollbar-thumb { background: #4a3828; border-radius: 2px; }
